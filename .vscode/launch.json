@@ -1,0 +1,70 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        // {
+        //     "name": "rust_os",
+        //     "type": "lldb",
+        //     "request": "custom",
+        //     "preLaunchTask": "Launch QEMU",
+        //     "targetCreateCommands": [
+        //         "target create ${workspaceRoot}/target/x86_64-rust_os/debug/rust_os"
+        //     ],
+        //     "processCreateCommands": [
+        //         "process connect connect://127.0.0.1:1234"
+        //     ]
+        // },
+        {
+            "name": "rust_os",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceRoot}/target/x86_64-rust_os/debug/bootimage-rust_os.bin",
+            "cwd": "${workspaceRoot}",
+            "args": [],
+            "targetArchitecture": "x86_64",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/home/robledo/.cargo/bin/rust-gdb",
+            "miDebuggerArgs": "${workspaceRoot}/target/x86_64-rust_os/debug/rust_os",
+            "customLaunchSetupCommands": [
+                {
+                    "text": "target remote localhost:1234",
+                    "description": "Connect to QEMU remote debugger"
+                }
+            ],
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "add-symbol-file ${workspaceRoot}/target/x86_64-rust_os/debug/rust_os 0x200000",
+                    "description": "Add myos.bin symbols"
+                },
+                // {
+                //     "text": "add-symbol-file ${workspaceRoot}/rootfs/bin/echo 0x400000",
+                //     "description": "Add echo symbols"
+                // },
+                // {
+                //     "text": "break idt_exception_handler",
+                //     "description": "Break on exception handler."
+                // },
+                // {
+                //     "text": "break _start",
+                //     "description": "Break _start"
+                // },
+                // {
+                //     "text": "break print_something",
+                //     "description": "Break _start"
+                // },
+                {
+                    "text": "break panic",
+                    "description": "Break on panic."
+                }
+            ],
+            "preLaunchTask": "Launch QEMU"
+        },
+    ]
+}
